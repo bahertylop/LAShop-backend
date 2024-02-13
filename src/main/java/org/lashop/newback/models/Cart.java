@@ -1,6 +1,7 @@
 package org.lashop.newback.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,23 +12,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Card {
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "pay_system")
-    private String paySystem;
+    @ManyToOne
+    @JoinColumn(name = "shoe_type_id")
+    private ShoeType product;
 
-    @Column(name = "card_number")
-    private String cardNumber;
+    @Min(1)
+    private double size;
 
-    @Column(name = "card_date")
-    private String cardDate;
-
-    @Column(name = "card_cvv")
-    private String cardCVV;
+    @Min(1)
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "account_id")

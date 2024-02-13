@@ -23,8 +23,8 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account accountId;
+    private Account account;
 
-//    @OneToMany(mappedBy = "address")
-//    private List<Orders> orders;
+    @OneToMany(mappedBy = "address")
+    private List<Orders> orders;
 }

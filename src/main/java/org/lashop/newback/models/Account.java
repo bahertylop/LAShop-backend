@@ -52,9 +52,12 @@ public class Account {
     @Column(name = "state")
     private State accountState;
 
-    @OneToMany(mappedBy = "accountId")
+    @OneToMany(mappedBy = "account")
     private List<Address> addresses;
 
-    @OneToMany(mappedBy = "accountId")
+    @OneToMany(mappedBy = "account")
     private List<Card> cards;
+
+    @OneToMany(mappedBy = "account")
+    private List<Orders> orders;
 }

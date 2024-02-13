@@ -24,6 +24,10 @@ public class ShoeType {
 
     private String model;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     private String color;
 
     @ElementCollection
@@ -35,4 +39,8 @@ public class ShoeType {
 
     @Column(name = "in_stock")
     private boolean inStock;
+
+
+    @OneToMany(mappedBy = "shoeType")
+    private List<Product> products;
 }
