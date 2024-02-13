@@ -20,7 +20,7 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn(name = "shoe_type_id")
-    private ShoeType product;
+    private ShoeType shoeType;
 
     @Min(1)
     private double size;
