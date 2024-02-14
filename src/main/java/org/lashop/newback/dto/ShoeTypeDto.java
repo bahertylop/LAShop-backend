@@ -21,9 +21,9 @@ import static java.util.stream.Collectors.toList;
 public class ShoeTypeDto {
 
     private long id;
-//    private String brand;
-//    private String model;
-    private String name;
+    private String brand;
+    private String model;
+//    private String name;
     private long categoryId;
     private String color;
     private List<String> photos;
@@ -35,7 +35,9 @@ public class ShoeTypeDto {
     public static ShoeTypeDto from(ShoeType shoeType) {
         return ShoeTypeDto.builder()
                 .id(shoeType.getId())
-                .name(shoeType.getBrand() + " " + shoeType.getModel())
+                .brand(shoeType.getBrand())
+                .model(shoeType.getModel())
+//                .name(shoeType.getBrand() + " " + shoeType.getModel())
                 .categoryId(shoeType.getCategory().getId())
                 .color(shoeType.getColor())
                 .photos(shoeType.getPhotos())
