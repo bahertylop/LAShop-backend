@@ -25,4 +25,6 @@ public class Product {
     private ShoeType shoeType;
 
     private double size;
+
+    private boolean sold;
 }
