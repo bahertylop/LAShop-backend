@@ -3,7 +3,9 @@ package org.lashop.newback.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.lashop.newback.dto.CartDto;
 import org.lashop.newback.dto.ShoeTypeDto;
+import org.lashop.newback.models.Account;
 import org.lashop.newback.models.Cart;
+import org.lashop.newback.models.ShoeType;
 import org.lashop.newback.repositories.AccountRepository;
 import org.lashop.newback.repositories.CartRepository;
 import org.lashop.newback.repositories.ProductRepository;
@@ -43,7 +45,6 @@ public class CartServiceImpl implements CartService {
     // если что можно переделать чтобы при нажатии на минус при количестве 1 удалялся продукт из корзины
     @Override
     public void minusCount(long shoeTypeId, double size, long accountId) {
-        // найти колоичество которое уже в корзине, найти количество в наличии, если можно то уменьшить, если можно то
         Optional<Cart> position = cartRepository.findByShoeTypeIdAndAccountIdAndSize(shoeTypeId, accountId, size);
 
         if (position.isPresent()) {
@@ -54,7 +55,7 @@ public class CartServiceImpl implements CartService {
 
             if (quantity > countProducts) {
                 cart.setQuantity(countProducts);
-            } else if (quantity > 0) {
+            } else if (quantity > 1) {
                 cart.setQuantity(quantity - 1);
             }
 
@@ -93,12 +94,19 @@ public class CartServiceImpl implements CartService {
 
         if (position.isEmpty()) {
             // добавляем
-            Cart newItemInCart = Cart.builder()
-                    .shoeType(shoeTypeRepository.findById(shoeTypeId).orElse(null))
-                    .account(accountRepository.findById(accountId).orElse(null))
-                    .size(size)
-                    .quantity(1)
-                    .build();
+            int countPairs = productRepository.countProductsByShoeTypeIdAndSizeNotSold(shoeTypeId, size);
+            if (countPairs > 0) {
+                Cart newItemInCart = Cart.builder()
+                        .shoeType(shoeTypeRepository.findById(shoeTypeId).orElseThrow(() -> new RuntimeException("shoeType not found")))
+                        .account(accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("account not found")))
+                        .size(size)
+                        .quantity(1)
+                        .build();
+                cartRepository.save(newItemInCart);
+            } else {
+                throw new RuntimeException("no position in stock");
+            }
+
         } else {
             // прибавляем
             plusCount(shoeTypeId, size, accountId);

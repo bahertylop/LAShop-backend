@@ -41,8 +41,8 @@ public class FavouritesServiceImpl implements FavouritesService {
 
         if (position.isEmpty()) {
             Favourite favourite = Favourite.builder()
-                    .account(accountRepository.findById(accountId).orElse(null))
-                    .shoeType(shoeTypeRepository.findById(shoeTypeId).orElse(null))
+                    .account(accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("account not found")))
+                    .shoeType(shoeTypeRepository.findById(shoeTypeId).orElseThrow(() -> new RuntimeException("shoeType not found")))
                     .build();
 
             favouritesRepository.save(favourite);
