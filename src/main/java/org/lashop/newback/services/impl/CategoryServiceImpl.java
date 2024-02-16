@@ -1,5 +1,6 @@
 package org.lashop.newback.services.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.lashop.newback.dto.CategoryDto;
 import org.lashop.newback.dto.ProductDto;
@@ -44,7 +45,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategoryById(long categoryId) {
-        return CategoryDto.from(categoryRepository.getReferenceById(categoryId));
+        try {
+            Category category = categoryRepository.getReferenceById(categoryId);
+            return CategoryDto.from(category);
+        } catch (EntityNotFoundException e) {
+            throw new RuntimeException("Category not found", e);
+        }
     }
 
     @Override
