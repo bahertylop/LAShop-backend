@@ -17,13 +17,13 @@ public class CategoryDto {
 
     private long id;
     private String name;
-    private List<Long> productIds;
+    private List<Long> shoeTypeIds;
 
     public static CategoryDto from(Category category) {
         return CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .productIds(category.getProducts().stream().map(ShoeType::getId).toList())
+                .shoeTypeIds(category.getProducts().stream().map(ShoeType::getId).toList())
                 .build();
     }
 

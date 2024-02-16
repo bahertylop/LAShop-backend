@@ -26,6 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     void deleteAllByShoeTypeId(long shoeTypeId);
 
+    @Query("select p from Product p where p.shoeType.id = ?1 and p.size = ?2 and p.sold = false")
     List<Product> findTopNByShoeTypeIdAndSizeAndSoldFalseOrderById(long shoeTypeId, double size, Pageable pageable);
 
     @Transactional
