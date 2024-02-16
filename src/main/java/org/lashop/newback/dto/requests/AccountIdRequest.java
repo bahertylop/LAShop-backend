@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class FavouritesRequest {
+public class AccountIdRequest {
 
     @NotBlank
     private Long accountId;

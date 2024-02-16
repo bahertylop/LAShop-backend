@@ -3,8 +3,8 @@ package org.lashop.newback.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.lashop.newback.dto.ShoeTypeDto;
+import org.lashop.newback.dto.requests.AccountIdRequest;
 import org.lashop.newback.dto.requests.OneFavouriteRequest;
-import org.lashop.newback.dto.requests.FavouritesRequest;
 import org.lashop.newback.services.FavouritesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,23 +22,23 @@ public class FavouritesController {
     private final FavouritesService favouritesService;
 
     @GetMapping("/api/favourites")
-    public ResponseEntity<?> getUserFavourites(@RequestBody FavouritesRequest favouritesRequest) {
-        if (favouritesRequest == null || favouritesRequest.getAccountId() == null) {
+    public ResponseEntity<?> getUserFavourites(@RequestBody AccountIdRequest accountIdRequest) {
+        if (accountIdRequest == null || accountIdRequest.getAccountId() == null) {
             return ResponseEntity.badRequest().body("request has empty body");
         }
 
-        List<ShoeTypeDto> typesList = favouritesService.getFavouritesList(favouritesRequest.getAccountId());
+        List<ShoeTypeDto> typesList = favouritesService.getFavouritesList(accountIdRequest.getAccountId());
 
         return new ResponseEntity<>(typesList, HttpStatus.OK);
     }
 
     @PostMapping("/api/favourites/deleteAll")
-    public ResponseEntity<?> deleteAllFavourites(@RequestBody(required = false) FavouritesRequest favouritesRequest) {
-        if (favouritesRequest == null || favouritesRequest.getAccountId() == null) {
+    public ResponseEntity<?> deleteAllFavourites(@RequestBody(required = false) AccountIdRequest accountIdRequest) {
+        if (accountIdRequest == null || accountIdRequest.getAccountId() == null) {
             return ResponseEntity.badRequest().body("request has empty body");
         }
 
-        favouritesService.deleteFavourites(favouritesRequest.getAccountId());
+        favouritesService.deleteFavourites(accountIdRequest.getAccountId());
         return ResponseEntity.ok("favourites deleted");
     }
 
