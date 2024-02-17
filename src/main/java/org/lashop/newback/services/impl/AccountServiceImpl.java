@@ -22,9 +22,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void signUp(AccountDto accountDto) {
-        Optional<Account> position = accountRepository.findByEmail(accountDto.getEmail());
+//        Optional<Account> position = accountRepository.findByEmail(accountDto.getEmail());
 
-        if (position.isPresent()) throw new IllegalArgumentException("DUBLICATE_EMAIL");
+//        if (position.isPresent()) throw new IllegalArgumentException("DUBLICATE_EMAIL");
 
         Account account = Account.builder()
                 .firstName(accountDto.getFirstName())
@@ -83,5 +83,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccount(long accountId) {
         accountRepository.deleteById(accountId);
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        Optional<Account> account = accountRepository.findByEmail(email);
+        return account.isPresent();
     }
 }

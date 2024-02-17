@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.swing.text.html.parser.Entity;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,11 @@ public class HomeController {
     private final CategoryService categoryService;
 
     @GetMapping("api/home")
-    ResponseEntity<HomeResponse> getAllModels() {
+    ResponseEntity<HomeResponse> getAllModels(Principal principal) {
+        if (principal == null) {
+            throw new IllegalArgumentException("user no authorized");
+        }
+
         List<ShoeTypeDto> shoeTypes = shoeTypeService.getTypesList()
                 .stream().
                 filter(ShoeTypeDto::isInStock)
