@@ -20,13 +20,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 
 // поработать над валидацией вводимых данных,
 // поработать с возможной дубликацией номера телефона
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class AuthorizationController {
 
@@ -53,7 +54,6 @@ public class AuthorizationController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtCore.generateToken(authentication);
         return ResponseEntity.ok(jwt);
-
     }
 
     @PostMapping("/api/signUp")

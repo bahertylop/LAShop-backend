@@ -1,6 +1,8 @@
 package org.lashop.newback.config.security;
 
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,9 +30,18 @@ public class JwtCore {
     }
 
     // не рабаотает какогото хуя
-
     public String getNameFromJwt(String token) {
-        String s = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+
+
+        JwtParser jwtParser = Jwts.parser().setSigningKey(secret);
+
+        Claims claims = jwtParser.parseClaimsJws(token).getBody();
+        System.out.println(claims.getSubject() + "qwertyuiop");
+        String s = claims.getSubject();
         return s;
     }
+
+//    public String getNameFromJwt(String token) {
+//        return extre
+//    }
 }

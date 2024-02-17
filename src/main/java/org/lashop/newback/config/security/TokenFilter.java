@@ -37,11 +37,12 @@ public class TokenFilter extends OncePerRequestFilter {
             }
             if (jwt != null) {
                 try {
+                    System.out.println("qwertyuio");
                     email = jwtCore.getNameFromJwt(jwt);
                 } catch (ExpiredJwtException e) {
                     // TODO
                 }
-                if (email != null && SecurityContextHolder.getContext().getAuthentication() != null) {
+                if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     userDetails = userDetailsService.loadUserByUsername(email);
                     auth = new UsernamePasswordAuthenticationToken(
                             userDetails,
