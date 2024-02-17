@@ -2,46 +2,70 @@ package org.lashop.newback.controllers;
 
 
 import lombok.RequiredArgsConstructor;
+import org.lashop.newback.config.security.JwtCore;
 import org.lashop.newback.dto.AccountDto;
 import org.lashop.newback.dto.requests.SignInRequest;
 import org.lashop.newback.dto.requests.SignUpRequest;
 import org.lashop.newback.models.Account;
 import org.lashop.newback.services.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 
 // поработать над валидацией вводимых данных,
 // поработать с возможной дубликацией номера телефона
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class AuthorizationController {
 
     private final AccountService accountService;
+    private final AuthenticationManager authenticationManager;
+    private JwtCore jwtCore;
+
+    @Autowired
+    public void jwtCoreSet(JwtCore jwtCore) {
+        this.jwtCore = jwtCore;
+    }
+
 
     @PostMapping("/api/signIn")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> signIn(@Valid @RequestBody SignInRequest signInRequest) {
-        try {
-            AccountDto accountDto = accountService.validEmailAndPassword(signInRequest.getEmail(), signInRequest.getPassword());
-            return ResponseEntity.ok("user signedIn");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
 
+        Authentication authentication = null;
+        try {
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
+        } catch (BadCredentialsException e) {
+            return new ResponseEntity<>("not signedIn", HttpStatus.UNAUTHORIZED);
+        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtCore.generateToken(authentication);
+        return ResponseEntity.ok(jwt);
     }
 
     @PostMapping("/api/signUp")
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
+        if (accountService.checkEmail(signUpRequest.getEmail())) {
+            return ResponseEntity.badRequest().body("email used");
+        }
+
         AccountDto accountDto = mapSignUpRequestToAccountDto(signUpRequest);
         accountService.signUp(accountDto);
+        return ResponseEntity.ok("user signedUp");
     }
 
     private AccountDto mapSignUpRequestToAccountDto(SignUpRequest signUpRequest) {

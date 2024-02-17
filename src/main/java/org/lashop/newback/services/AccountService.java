@@ -10,6 +10,8 @@ public interface AccountService {
 
     AccountDto getAccount(long accountId);
 
+    boolean checkEmail(String email);
+
     AccountDto validEmailAndPassword(String email, String password);
 
     void changePassword(long accountId, String password);
