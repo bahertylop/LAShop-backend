@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface AccountService {
 
-    boolean signUp(AccountDto accountDto);
+    void signUp(AccountDto accountDto);
 
     AccountDto getAccount(long accountId);
 
