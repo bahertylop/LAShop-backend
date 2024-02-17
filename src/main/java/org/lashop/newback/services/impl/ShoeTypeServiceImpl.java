@@ -32,7 +32,7 @@ public class ShoeTypeServiceImpl implements ShoeTypeService {
     @Override
     public ShoeTypeDto getTypeById(long id) {
         Optional<ShoeType> shoeType = shoeTypeRepository.findById(id);
-        return shoeType.map(ShoeTypeDto::from).orElse(null);
+        return shoeType.map(ShoeTypeDto::from).orElseThrow(() -> new RuntimeException("shoeType not found"));
     }
 
     @Override

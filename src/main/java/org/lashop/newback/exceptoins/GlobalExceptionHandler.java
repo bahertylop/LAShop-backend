@@ -20,4 +20,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleMethodHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         return ResponseEntity.badRequest().body("request must have body");
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleMethodIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 }

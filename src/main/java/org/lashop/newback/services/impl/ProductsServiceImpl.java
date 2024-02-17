@@ -9,8 +9,8 @@ import org.lashop.newback.repositories.ShoeTypeRepository;
 import org.lashop.newback.services.ProductService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +72,7 @@ public class ProductsServiceImpl implements ProductService {
     @Override
     public List<Long> sellProducts(long typeId, double size, int quantity) {
 
-        Pageable prodLimit = (Pageable) PageRequest.of(0, quantity);
+        Pageable prodLimit = PageRequest.of(0, quantity);
         List<Product> productForSale = productRepository.findTopNByShoeTypeIdAndSizeAndSoldFalseOrderById(typeId, size, prodLimit);
 
         for (Product product : productForSale) {

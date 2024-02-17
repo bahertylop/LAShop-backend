@@ -1,11 +1,13 @@
 package org.lashop.newback.services.impl;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.lashop.newback.dto.AccountDto;
 import org.lashop.newback.models.Account;
 import org.lashop.newback.repositories.AccountRepository;
 import org.lashop.newback.services.AccountService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,42 +18,45 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
 
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public boolean signUp(AccountDto accountDto) {
+    public void signUp(AccountDto accountDto) {
         Optional<Account> position = accountRepository.findByEmail(accountDto.getEmail());
 
-        if (position.isPresent()) return false;
+        if (position.isPresent()) throw new IllegalArgumentException("DUBLICATE_EMAIL");
 
         Account account = Account.builder()
                 .firstName(accountDto.getFirstName())
                 .lastName(accountDto.getLastName())
                 .email(accountDto.getEmail())
                 .phoneNumber(accountDto.getPhoneNumber())
-                .password(accountDto.getPassword())     // добавить енкодер
+                .password(passwordEncoder.encode(accountDto.getPassword()))  // выбрасывает 400 если пароль null
                 .role(Account.Role.valueOf(accountDto.getRole()))
                 .accountState(Account.State.valueOf(accountDto.getAccountState()))
                 .personalSale(accountDto.getPersonalSale())
                 .build();
         accountRepository.save(account);
-
-        return true;
     }
 
     @Override
     public AccountDto getAccount(long accountId) {
         Optional<Account> position = accountRepository.findById(accountId);
-        return position.map(AccountDto::from).orElse(null);
+        return position.map(AccountDto::from).orElseThrow(() -> new RuntimeException("ACCOUNT_NOT_FOUND"));
     }
 
     @Override
     public AccountDto validEmailAndPassword(String email, String password) {
-        Optional<Account> account = accountRepository.findByEmail(email);
+//        Optional<Account> account = accountRepository.findByEmail(email);
+//
+//        if (account.isPresent() && passwordEncoder.matches(password, account.get().getPassword())) {
+//            return AccountDto.from(account.get());
+//        }
+//        throw new RuntimeException("PASSWORD_NOT_VALID");
 
-        if (account.isPresent() && account.get().getPassword().equals(password)) {
-            return AccountDto.from(account.get());
-        }
-        return null;
+        return AccountDto.from(accountRepository.findByEmail(email)
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
+                .orElseThrow(() -> new RuntimeException("PASSWORD_OR_EMAIL_NOT_VALID")));
     }
 
 
