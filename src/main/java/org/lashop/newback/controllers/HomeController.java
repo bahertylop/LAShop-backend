@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.lashop.newback.dto.CategoryDto;
 import org.lashop.newback.dto.ShoeTypeDto;
 import org.lashop.newback.dto.responses.HomeResponse;
+import org.lashop.newback.models.ShoeType;
 import org.lashop.newback.repositories.ShoeTypeRepository;
 import org.lashop.newback.services.CategoryService;
 import org.lashop.newback.services.ShoeTypeService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.swing.text.html.parser.Entity;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,7 +27,12 @@ public class HomeController {
 
     @GetMapping("api/home")
     ResponseEntity<HomeResponse> getAllModels() {
-        List<ShoeTypeDto> shoeTypes = shoeTypeService.getTypesList();
+        List<ShoeTypeDto> shoeTypes = shoeTypeService.getTypesList()
+                .stream().
+                filter(ShoeTypeDto::isInStock)
+                .toList();
+        
+
         List<CategoryDto> categories = categoryService.getAllCategories();
 
         HomeResponse response = HomeResponse.builder()
