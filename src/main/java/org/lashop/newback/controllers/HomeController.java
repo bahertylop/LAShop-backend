@@ -31,7 +31,7 @@ public class HomeController {
                 .stream().
                 filter(ShoeTypeDto::isInStock)
                 .toList();
-        
+
 
         List<CategoryDto> categories = categoryService.getAllCategories();
 

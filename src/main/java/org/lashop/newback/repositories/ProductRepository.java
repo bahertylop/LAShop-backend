@@ -6,8 +6,8 @@ import org.lashop.newback.models.ShoeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {

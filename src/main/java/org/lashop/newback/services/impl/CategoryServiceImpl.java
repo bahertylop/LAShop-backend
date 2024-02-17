@@ -14,8 +14,9 @@ import org.lashop.newback.repositories.ShoeTypeRepository;
 import org.lashop.newback.services.CategoryService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
+
 import java.util.List;
 
 
@@ -39,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<ShoeTypeDto> getCategoryShoeTypesLimited(long categoryId, int colvo) {
-        Pageable limit = (Pageable) PageRequest.of(0, colvo);
+        Pageable limit = PageRequest.of(0, colvo);
         return ShoeTypeDto.from(shoeTypeRepository.getShoeTypesByCategoryIdLimited(categoryId, limit));
     }
 
