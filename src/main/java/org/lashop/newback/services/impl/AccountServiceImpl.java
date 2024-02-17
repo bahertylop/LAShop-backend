@@ -31,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
                 .lastName(accountDto.getLastName())
                 .email(accountDto.getEmail())
                 .phoneNumber(accountDto.getPhoneNumber())
-                .password(passwordEncoder.encode(accountDto.getPassword()))     // добавить енкодер
+                .password(passwordEncoder.encode(accountDto.getPassword()))  // выбрасывает 400 если пароль null
                 .role(Account.Role.valueOf(accountDto.getRole()))
                 .accountState(Account.State.valueOf(accountDto.getAccountState()))
                 .personalSale(accountDto.getPersonalSale())
@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
 
         return AccountDto.from(accountRepository.findByEmail(email)
                 .filter(user -> passwordEncoder.matches(password, user.getPassword()))
-                .orElseThrow(() -> new RuntimeException("PASSWORD_NOT_VALID")));
+                .orElseThrow(() -> new RuntimeException("PASSWORD_OR_EMAIL_NOT_VALID")));
     }
 
 
