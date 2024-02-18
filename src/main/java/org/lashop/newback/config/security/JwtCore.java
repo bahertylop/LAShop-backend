@@ -29,19 +29,12 @@ public class JwtCore {
                 .compact();
     }
 
-    // не рабаотает какогото хуя
-    public String getNameFromJwt(String token) {
-
-
+        public String getNameFromJwt(String token) {
         JwtParser jwtParser = Jwts.parser().setSigningKey(secret);
 
         Claims claims = jwtParser.parseClaimsJws(token).getBody();
-        System.out.println(claims.getSubject() + "qwertyuiop");
         String s = claims.getSubject();
         return s;
     }
 
-//    public String getNameFromJwt(String token) {
-//        return extre
-//    }
 }

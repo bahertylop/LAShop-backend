@@ -22,10 +22,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void signUp(AccountDto accountDto) {
-//        Optional<Account> position = accountRepository.findByEmail(accountDto.getEmail());
-
-//        if (position.isPresent()) throw new IllegalArgumentException("DUBLICATE_EMAIL");
-
         Account account = Account.builder()
                 .firstName(accountDto.getFirstName())
                 .lastName(accountDto.getLastName())
@@ -47,13 +43,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto validEmailAndPassword(String email, String password) {
-//        Optional<Account> account = accountRepository.findByEmail(email);
-//
-//        if (account.isPresent() && passwordEncoder.matches(password, account.get().getPassword())) {
-//            return AccountDto.from(account.get());
-//        }
-//        throw new RuntimeException("PASSWORD_NOT_VALID");
-
         return AccountDto.from(accountRepository.findByEmail(email)
                 .filter(user -> passwordEncoder.matches(password, user.getPassword()))
                 .orElseThrow(() -> new RuntimeException("PASSWORD_OR_EMAIL_NOT_VALID")));
