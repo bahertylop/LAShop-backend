@@ -13,7 +13,4 @@ public class CurrentShoe {
 
     @NotBlank
     private Double size;
-
-    @NotBlank
-    private Long accountId;
 }
