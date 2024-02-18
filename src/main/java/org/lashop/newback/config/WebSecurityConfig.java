@@ -26,28 +26,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private TokenFilter tokenFilter;
-    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     public void setTokenFilter(TokenFilter tokenFilter) {
         this.tokenFilter = tokenFilter;
     }
 
-    @Autowired
-    public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-//    @Bean
-//    public AuthenticationManagerBuilder configureAuthenticationManagerBuilder(AuthenticationManagerBuilder builder) throws Exception {
-//        builder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//        return  builder;
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -61,14 +50,6 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/categories/{categoryId}").permitAll()
                         .requestMatchers("/api/products/{productId}").permitAll()
                         .requestMatchers("/api/favourites", "/api/favourites/**").authenticated()
-//                        .requestMatchers("/api/signUp").permitAll()
-//                        .requestMatchers("/api/signIn").permitAll()
-//                        .requestMatchers("/api/home").permitAll()
-//                        .requestMatchers("/api/deleteAccount").permitAll()
-//                        .requestMatchers("/api/cart", "/api/cart/**").permitAll()
-//                        .requestMatchers("/api/categories/{categoryId}").permitAll()
-//                        .requestMatchers("/api/products/{shoeTypeId}").permitAll()
-//                        .requestMatchers("/api/favourites", "/api/favourites/**").permitAll()
                         .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -82,7 +63,4 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    public static final String ADMIN = "ADMIN";
-//    public static final String USER = "USER";
 }

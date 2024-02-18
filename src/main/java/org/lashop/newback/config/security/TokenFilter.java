@@ -37,7 +37,6 @@ public class TokenFilter extends OncePerRequestFilter {
             }
             if (jwt != null) {
                 try {
-                    System.out.println("qwertyuio");
                     email = jwtCore.getNameFromJwt(jwt);
                 } catch (ExpiredJwtException e) {
                     // TODO
@@ -46,7 +45,9 @@ public class TokenFilter extends OncePerRequestFilter {
                     userDetails = userDetailsService.loadUserByUsername(email);
                     auth = new UsernamePasswordAuthenticationToken(
                             userDetails,
-                            null);
+                            null,
+                            userDetails.getAuthorities());
+//                    auth.setAuthenticated(true);
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             }
