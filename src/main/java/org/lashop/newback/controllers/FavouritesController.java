@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -22,7 +23,10 @@ public class FavouritesController {
     private final FavouritesService favouritesService;
 
     @GetMapping("/api/favourites")
-    public ResponseEntity<?> getUserFavourites(@RequestBody AccountIdRequest accountIdRequest) {
+    public ResponseEntity<?> getUserFavourites(@RequestBody AccountIdRequest accountIdRequest, Principal principal) {
+        if (principal == null) {
+            throw new IllegalArgumentException("user no authorized");
+        }
         if (accountIdRequest == null || accountIdRequest.getAccountId() == null) {
             return ResponseEntity.badRequest().body("request has empty body");
         }
