@@ -6,8 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.patterns.IToken;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,7 +37,7 @@ public class TokenFilter extends OncePerRequestFilter {
                 try {
                     email = jwtCore.getNameFromJwt(jwt);
                 } catch (ExpiredJwtException e) {
-                    // TODO
+                    throw new IllegalArgumentException("WRONG_JWT");
                 }
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     userDetails = userDetailsService.loadUserByUsername(email);
@@ -52,7 +50,7 @@ public class TokenFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-
+            throw new IllegalArgumentException("WRONG_AUTHORIZATION");
         }
         filterChain.doFilter(request, response);
     }

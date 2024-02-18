@@ -57,6 +57,8 @@ public class CartServiceImpl implements CartService {
                 cart.setQuantity(countProducts);
             } else if (quantity > 1) {
                 cart.setQuantity(quantity - 1);
+            } else if (quantity == 1) {
+                deleteItemFromCart(shoeTypeId, size, accountId);
             }
 
             cartRepository.save(cart);

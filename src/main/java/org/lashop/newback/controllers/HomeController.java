@@ -37,16 +37,12 @@ public class HomeController {
                 .stream().
                 filter(ShoeTypeDto::isInStock)
                 .toList();
-
-
         List<CategoryDto> categories = categoryService.getAllCategories();
 
         HomeResponse response = HomeResponse.builder()
                 .shoeTypes(shoeTypes)
                 .categories(categories)
                 .build();
-
-
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

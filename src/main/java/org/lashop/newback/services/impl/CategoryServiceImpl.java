@@ -26,7 +26,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final ShoeTypeRepository shoeTypeRepository;
-    private final ProductRepository productRepository;
 
     @Override
     public List<CategoryDto> getAllCategories() {
