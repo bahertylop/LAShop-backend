@@ -5,6 +5,5 @@ import lombok.Data;
 @Data
 public class OneFavouriteRequest {
 
-    private Long accountId;
     private Long shoeTypeId;
 }

@@ -60,4 +60,8 @@ public class AccountUserDetails implements UserDetails {
     public boolean isEnabled() {
         return account.getAccountState().equals(Account.State.CONFIRMED);
     }
+
+    public Long getId() {
+        return account.getId();
+    }
 }
