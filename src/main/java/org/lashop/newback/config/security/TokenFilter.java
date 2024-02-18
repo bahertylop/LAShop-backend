@@ -39,7 +39,7 @@ public class TokenFilter extends OncePerRequestFilter {
                 try {
                     email = jwtCore.getNameFromJwt(jwt);
                 } catch (ExpiredJwtException e) {
-                    // TODO
+                    throw new IllegalArgumentException("WRONG_JWT");
                 }
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     userDetails = userDetailsService.loadUserByUsername(email);
@@ -52,7 +52,7 @@ public class TokenFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-
+            throw new IllegalArgumentException("WRONG_AUTHORIZATION");
         }
         filterChain.doFilter(request, response);
     }
