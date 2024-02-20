@@ -3,6 +3,7 @@ package org.lashop.newback.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.lashop.newback.config.security.JwtCore;
+import org.lashop.newback.config.security.Token;
 import org.lashop.newback.dto.AccountDto;
 import org.lashop.newback.dto.requests.SignInRequest;
 import org.lashop.newback.dto.requests.SignUpRequest;
@@ -43,7 +44,7 @@ public class AuthorizationController {
 
     @PostMapping("/api/signIn")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> signIn(@Valid @RequestBody SignInRequest signInRequest) {
+    public ResponseEntity<?> signIn(@Valid @RequestBody SignInRequest signInRequest) {
 
         Authentication authentication = null;
         try {
@@ -52,8 +53,9 @@ public class AuthorizationController {
             return new ResponseEntity<>("not signedIn", HttpStatus.UNAUTHORIZED);
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtCore.generateToken(authentication);
-        return ResponseEntity.ok(jwt);
+//        String jwt = jwtCore.generateToken(authentication);
+        Token jwt = new Token(jwtCore.generateToken(authentication));
+        return ResponseEntity.ok().body(jwt);
     }
 
     @PostMapping("/api/signUp")
