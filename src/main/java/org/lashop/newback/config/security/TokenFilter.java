@@ -29,10 +29,7 @@ public class TokenFilter extends OncePerRequestFilter {
         UserDetails userDetails = null;
         UsernamePasswordAuthenticationToken auth = null;
         try {
-            String headerAuth = request.getHeader("Authorization");
-            if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
-                jwt = headerAuth.substring(7);
-            }
+            jwt = jwtCore.getTokenFromRequest(request);
             if (jwt != null) {
                 try {
                     email = jwtCore.getNameFromJwt(jwt);

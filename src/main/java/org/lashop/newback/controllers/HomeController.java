@@ -28,10 +28,10 @@ public class HomeController {
     private final CategoryService categoryService;
 
     @GetMapping("api/home")
-    ResponseEntity<HomeResponse> getAllModels(Principal principal) {
-        if (principal == null) {
-            throw new IllegalArgumentException("user no authorized");
-        }
+    ResponseEntity<HomeResponse> getAllModels() {
+//        if (principal == null) {
+//            throw new IllegalArgumentException("user no authorized");
+//        }
 
         List<ShoeTypeDto> shoeTypes = shoeTypeService.getTypesList()
                 .stream().
