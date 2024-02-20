@@ -27,7 +27,10 @@ public class CategoriesController {
 
         try {
             CategoryDto category = categoryService.getCategoryById(categoryId);
-            List<ShoeTypeDto> shoeTypeDtoList = categoryService.getCategoryShoeTypes(category.getId());
+            List<ShoeTypeDto> shoeTypeDtoList = categoryService.getCategoryShoeTypes(category.getId())
+                    .stream()
+                    .filter(ShoeTypeDto::isInStock)
+                    .toList();
             return ResponseEntity.ok().body(shoeTypeDtoList);
         } catch (RuntimeException e) {
             return new ResponseEntity<>("category not found", HttpStatus.NOT_FOUND);

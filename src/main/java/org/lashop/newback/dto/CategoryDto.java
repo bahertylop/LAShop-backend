@@ -17,12 +17,14 @@ public class CategoryDto {
 
     private long id;
     private String name;
+    private String image;
     private List<Long> shoeTypeIds;
 
     public static CategoryDto from(Category category) {
         return CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())
+                .image(category.getImage())
                 .shoeTypeIds(category.getProducts().stream().map(ShoeType::getId).toList())
                 .build();
     }
