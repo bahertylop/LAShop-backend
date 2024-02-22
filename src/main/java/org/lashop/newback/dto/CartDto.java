@@ -15,7 +15,7 @@ import java.util.List;
 public class CartDto {
 
     private long id;
-    private long productId;
+    private ShoeTypeDto shoeType;
     private double size;
     private int quantity;
     private long accountId;
@@ -23,7 +23,7 @@ public class CartDto {
     public static CartDto from(Cart cart) {
         return CartDto.builder()
                 .id(cart.getId())
-                .productId(cart.getShoeType().getId())
+                .shoeType(ShoeTypeDto.from(cart.getShoeType()))
                 .size(cart.getSize())
                 .quantity(cart.getQuantity())
                 .accountId(cart.getAccount().getId())
