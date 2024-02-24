@@ -41,13 +41,27 @@ public class TypesController {
         }
 
         try {
-            shoeTypeService.takeInStockFalse(shoeTypeId);
+            shoeTypeService.changeInStock(shoeTypeId, false);
         } catch (RuntimeException e) {
             return new ResponseEntity<>("shoe type not found", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok().body("take inStock false");
     }
-    
+
+    @PostMapping("api/adm/types/takeInStock/{shoeTypeId}")
+    ResponseEntity<?> takeInStock(@PathVariable Long shoeTypeId) {
+        if (shoeTypeId == null) {
+            return ResponseEntity.badRequest().body("not shoeTypeId");
+        }
+
+        try {
+            shoeTypeService.changeInStock(shoeTypeId, true);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("shoe type not found", HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok().body("take inStock true");
+    }
+
 
 
     @PostMapping("api/adm/types/add")

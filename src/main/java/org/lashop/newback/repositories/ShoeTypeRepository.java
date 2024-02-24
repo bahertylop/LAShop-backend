@@ -26,7 +26,7 @@ public interface ShoeTypeRepository extends JpaRepository<ShoeType, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE ShoeType p SET p.inStock = false WHERE p.id = ?1")
-    void makeNotInStockById(long shoeTypeId);
+    @Query("UPDATE ShoeType p SET p.inStock = ?2 WHERE p.id = ?1")
+    void changeInStockById(long shoeTypeId, boolean inStock);
 
 }

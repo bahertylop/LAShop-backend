@@ -82,15 +82,13 @@ public class ShoeTypeServiceImpl implements ShoeTypeService {
     }
 
     @Override
-    public void takeInStockFalse(Long shoeTypeId) {
+    public void changeInStock(Long shoeTypeId, boolean inStock) {
         Optional<ShoeType> shoeType = shoeTypeRepository.findById(shoeTypeId);
 
         if (shoeType.isPresent()) {
-            shoeTypeRepository.makeNotInStockById(shoeTypeId);
+            shoeTypeRepository.changeInStockById(shoeTypeId, inStock);
         } else {
             throw new RuntimeException("shoe type not found");
         }
-
-
     }
 }
