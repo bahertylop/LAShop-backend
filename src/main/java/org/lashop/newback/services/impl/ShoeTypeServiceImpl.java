@@ -79,4 +79,9 @@ public class ShoeTypeServiceImpl implements ShoeTypeService {
     public List<ShoeTypeDto> getShoeTypesIsInStock(boolean isInStock) {
         return ShoeTypeDto.from(shoeTypeRepository.getShoeTypesByInStock(isInStock));
     }
- }
+
+    @Override
+    public void takeInStockFalse(Long shoeTypeId) {
+        shoeTypeRepository.makeNotInStockById(shoeTypeId);
+    }
+}

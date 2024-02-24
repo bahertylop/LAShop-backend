@@ -7,6 +7,9 @@ import org.lashop.newback.services.ShoeTypeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -26,5 +29,16 @@ public class TypesController {
     ResponseEntity<List<ShoeTypeDto>> getShoeTypesNotInStock() {
         List<ShoeTypeDto> types = shoeTypeService.getShoeTypesIsInStock(false);
         return ResponseEntity.ok().body(types);
+    }
+
+    @PostMapping("api/adm/types/takeNotInStock/{shoeTypeId}")
+    ResponseEntity<?> takeNotInStock(@PathVariable Long shoeTypeId) {
+        if (shoeTypeId == null) {
+            return ResponseEntity.badRequest().body("not shoeTypeId");
+        }
+
+        shoeTypeService.takeInStockFalse(shoeTypeId);
+
+        return ResponseEntity.ok().body("take inStock false");
     }
 }

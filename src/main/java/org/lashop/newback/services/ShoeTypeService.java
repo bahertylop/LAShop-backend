@@ -18,4 +18,6 @@ public interface ShoeTypeService {
     void updateShoeType(ShoeTypeDto shoeTypeDto);
 
     List<ShoeTypeDto> getShoeTypesIsInStock(boolean isInStock);
+
+    void takeInStockFalse(Long shoeTypeId);
 }
