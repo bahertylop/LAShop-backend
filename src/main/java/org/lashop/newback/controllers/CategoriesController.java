@@ -38,5 +38,10 @@ public class CategoriesController {
     }
 
 
-    
+    @GetMapping("api/adm/categories/all")
+    ResponseEntity<?> getAllCategories() {
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
 }
