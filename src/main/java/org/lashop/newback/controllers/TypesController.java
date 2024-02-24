@@ -4,6 +4,7 @@ package org.lashop.newback.controllers;
 import lombok.RequiredArgsConstructor;
 import org.lashop.newback.dto.ShoeTypeDto;
 import org.lashop.newback.services.ShoeTypeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +38,11 @@ public class TypesController {
             return ResponseEntity.badRequest().body("not shoeTypeId");
         }
 
-        shoeTypeService.takeInStockFalse(shoeTypeId);
-
+        try {
+            shoeTypeService.takeInStockFalse(shoeTypeId);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("shoe type not found", HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.ok().body("take inStock false");
     }
 }
