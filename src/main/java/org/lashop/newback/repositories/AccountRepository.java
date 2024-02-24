@@ -3,6 +3,8 @@ package org.lashop.newback.repositories;
 import jakarta.transaction.Transactional;
 import org.lashop.newback.models.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
@@ -47,5 +49,30 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             save(account);
         }
     }
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Account p SET p.accountState = Account.State.DELETED where p.id = ?1")
+    void makeStateDeleted(long adminId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Account p SET p.accountState = Account.State.BANNED where p.id = ?1")
+    void makeStateBanned(long adminId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Account p SET p.accountState = Account.State.CONFIRMED where p.id = ?1")
+    void makeStateConfirmed(long adminId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Account p SET p.role = Account.Role.ADMIN where p.id = ?1")
+    void makeRoleAdmin(long accountId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Account p SET p.role = Account.Role.USER where p.id = ?1")
+    void makeRoleUser(long accountId);
 
 }
