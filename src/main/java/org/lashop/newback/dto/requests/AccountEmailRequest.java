@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class AccountIdRequest {
+public class AccountEmailRequest {
 
     @NotBlank
-    private Long accountId;
+    private String email;
 }

@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -35,5 +37,32 @@ public class CategoriesController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>("category not found", HttpStatus.NOT_FOUND);
         }
+    }
+
+
+    @GetMapping("api/adm/categories/all")
+    ResponseEntity<?> getAllCategories() {
+        List<CategoryDto> categories = categoryService.getAllCategories();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
+    @PostMapping("api/adm/categories/add")
+    ResponseEntity<?> addNewCategory(@RequestBody CategoryDto categoryDto) {
+        if (categoryDto == null || categoryDto.getName() == null || categoryDto.getImage() == null) {
+            return ResponseEntity.badRequest().body("request has empty body");
+        }
+
+        categoryService.createCategory(categoryDto.getName(), categoryDto.getImage());
+        return ResponseEntity.ok("category added");
+    }
+
+    @PostMapping("api/adm/categories/delete")
+    ResponseEntity<?> deleteCategory(@RequestBody CategoryDto categoryDto) {
+        if (categoryDto == null || categoryDto.getName() == null) {
+            return ResponseEntity.badRequest().body("request has empty body");
+        }
+
+        categoryService.deleteCategoryAndTakeTypesNotInStock(categoryDto.getName());
+        return ResponseEntity.ok("category deleted");
     }
 }

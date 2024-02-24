@@ -29,7 +29,17 @@ public class TokenFilter extends OncePerRequestFilter {
         UserDetails userDetails = null;
         UsernamePasswordAuthenticationToken auth = null;
         try {
-            jwt = jwtCore.getTokenFromRequest(request);
+
+            // токен в куки
+            //jwt = jwtCore.getTokenFromRequest(request);
+
+            // токен в хэдере
+            String headerAuth = request.getHeader("Authorization");
+            if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
+                jwt = headerAuth.substring(7);
+            }
+
+
             if (jwt != null) {
                 try {
                     email = jwtCore.getNameFromJwt(jwt);
