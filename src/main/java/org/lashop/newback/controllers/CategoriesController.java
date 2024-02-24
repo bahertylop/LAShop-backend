@@ -36,4 +36,7 @@ public class CategoriesController {
             return new ResponseEntity<>("category not found", HttpStatus.NOT_FOUND);
         }
     }
+
+
+    
 }
