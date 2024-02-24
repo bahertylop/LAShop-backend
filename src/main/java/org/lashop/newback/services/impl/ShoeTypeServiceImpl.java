@@ -11,6 +11,7 @@ import org.lashop.newback.services.ShoeTypeService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.management.RuntimeMBeanException;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +51,8 @@ public class ShoeTypeServiceImpl implements ShoeTypeService {
                 .color(shoeTypeDto.getColor())
                 .photos(shoeTypeDto.getPhotos())
                 .description(shoeTypeDto.getDescription())
-                .inStock(shoeTypeDto.isInStock())
-                .category(categoryRepository.getReferenceById(shoeTypeDto.getCategoryId()))
+                .inStock(false)
+                .category(categoryRepository.findById(shoeTypeDto.getCategoryId()).orElseThrow(() -> new RuntimeException("category not found")))
                 .build();
 
         shoeTypeRepository.save(shoeType);

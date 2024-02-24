@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.yaml.snakeyaml.util.EnumUtils;
 
+import java.text.RuleBasedCollator;
 import java.util.List;
 
 @Controller
@@ -44,5 +46,22 @@ public class TypesController {
             return new ResponseEntity<>("shoe type not found", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok().body("take inStock false");
+    }
+    
+
+
+    @PostMapping("api/adm/types/add")
+    ResponseEntity<?> addNewShoeType(@RequestBody ShoeTypeDto shoeTypeDto) {
+        if (shoeTypeDto == null || shoeTypeDto.getBrand() == null || shoeTypeDto.getModel() == null ||
+                shoeTypeDto.getColor() == null || shoeTypeDto.getPrice() == 0) {
+            return ResponseEntity.badRequest().body("request has empty body");
+        }
+
+        try {
+            shoeTypeService.createNewShoeType(shoeTypeDto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok("new shoe type added");
     }
 }
