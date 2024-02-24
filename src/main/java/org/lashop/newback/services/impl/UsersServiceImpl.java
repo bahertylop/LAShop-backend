@@ -25,7 +25,7 @@ public class UsersServiceImpl implements UsersService {
         Optional<Account> account = accountRepository.findById(accountId);
 
         if (account.isPresent()) {
-            accountRepository.makeStateDeleted(accountId);
+            accountRepository.changeAccountState(accountId, Account.State.DELETED.name());
         } else {
             throw new RuntimeException("account not found");
         }
@@ -36,7 +36,7 @@ public class UsersServiceImpl implements UsersService {
         Optional<Account> account = accountRepository.findById(accountId);
 
         if (account.isPresent()) {
-            accountRepository.makeStateBanned(accountId);
+            accountRepository.changeAccountState(accountId, Account.State.BANNED.name());
         } else {
             throw new RuntimeException("account not found");
         }
@@ -47,7 +47,7 @@ public class UsersServiceImpl implements UsersService {
         Optional<Account> account = accountRepository.findById(accountId);
 
         if (account.isPresent()) {
-            accountRepository.makeStateConfirmed(accountId);
+            accountRepository.changeAccountState(accountId, Account.State.CONFIRMED.name());
         } else {
             throw new RuntimeException("account not found");
         }
@@ -58,7 +58,7 @@ public class UsersServiceImpl implements UsersService {
         Optional<Account> account = accountRepository.findById(accountId);
 
         if (account.isPresent()) {
-            accountRepository.makeRoleUser(accountId);
+            accountRepository.changeAccountRole(accountId, Account.Role.USER.name());
         } else {
             throw new RuntimeException("account not found");
         }
@@ -69,7 +69,7 @@ public class UsersServiceImpl implements UsersService {
         Optional<Account> account = accountRepository.findById(accountId);
 
         if (account.isPresent()) {
-            accountRepository.makeRoleAdmin(accountId);
+            accountRepository.changeAccountRole(accountId, Account.Role.ADMIN.name());
         } else {
             throw new RuntimeException("account not found");
         }

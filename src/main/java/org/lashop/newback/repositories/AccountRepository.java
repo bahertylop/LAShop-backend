@@ -52,27 +52,14 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Account p SET p.accountState = Account.State.DELETED where p.id = ?1")
-    void makeStateDeleted(long adminId);
+    @Query("UPDATE Account p SET p.accountState = ?2 where p.id = ?1")
+    void changeAccountState(long adminId, String state);
+
 
     @Modifying
     @Transactional
-    @Query("UPDATE Account p SET p.accountState = Account.State.BANNED where p.id = ?1")
-    void makeStateBanned(long adminId);
+    @Query("UPDATE Account p SET p.role = ?2 where p.id = ?1")
+    void changeAccountRole(long accountId, String role);
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE Account p SET p.accountState = Account.State.CONFIRMED where p.id = ?1")
-    void makeStateConfirmed(long adminId);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Account p SET p.role = Account.Role.ADMIN where p.id = ?1")
-    void makeRoleAdmin(long accountId);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Account p SET p.role = Account.Role.USER where p.id = ?1")
-    void makeRoleUser(long accountId);
 
 }
