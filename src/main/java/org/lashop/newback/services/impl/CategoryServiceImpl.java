@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -65,9 +66,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void createCategory(String categoryName) {
+    public void createCategory(String categoryName, String image) {
         Category category = Category.builder()
                 .name(categoryName)
+                .image(image)
                 .build();
         categoryRepository.save(category);
     }
@@ -75,5 +77,21 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(long id) {
         categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteCategoryAndTakeTypesNotInStock(String categoryName) {
+        Optional<Category> category = categoryRepository.findCategoryByName(categoryName);
+
+        if (category.isPresent()) {
+            Category categoryPres = category.get();
+
+            // меняем поле inStock на false
+            shoeTypeRepository.makeAllNotInStockByCategoryId(categoryPres.getId());
+
+            // удаление категории и зануление ссылок в таблице с типами
+            categoryRepository.updateAllByCategoryIdToNull(categoryPres.getId());
+            categoryRepository.deleteById(categoryPres.getId());
+        }
     }
 }

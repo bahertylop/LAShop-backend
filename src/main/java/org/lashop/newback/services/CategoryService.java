@@ -20,8 +20,9 @@ public interface CategoryService {
 
     CategoryDto getProductCategory(ProductDto productDto);
 
-    void createCategory(String categoryName);
+    void createCategory(String categoryName, String image);
 
     void deleteCategory(long id);
 
+    void deleteCategoryAndTakeTypesNotInStock(String categoryName);
 }
