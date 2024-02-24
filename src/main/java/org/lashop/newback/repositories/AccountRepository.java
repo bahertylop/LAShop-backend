@@ -53,13 +53,13 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE Account p SET p.accountState = ?2 where p.id = ?1")
-    void changeAccountState(long adminId, String state);
+    void changeAccountState(long adminId, Account.State state);
 
 
     @Modifying
     @Transactional
     @Query("UPDATE Account p SET p.role = ?2 where p.id = ?1")
-    void changeAccountRole(long accountId, String role);
+    void changeAccountRole(long accountId, Account.Role role);
 
 
 }

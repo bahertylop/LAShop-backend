@@ -21,55 +21,55 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void takeAccountDeleted(long accountId) {
-        Optional<Account> account = accountRepository.findById(accountId);
+    public void takeAccountDeleted(String email) {
+        Optional<Account> account = accountRepository.findByEmail(email);
 
         if (account.isPresent()) {
-            accountRepository.changeAccountState(accountId, Account.State.DELETED.name());
+            accountRepository.changeAccountState(account.get().getId(), Account.State.DELETED);
         } else {
             throw new RuntimeException("account not found");
         }
     }
 
     @Override
-    public void takeAccountBanned(long accountId) {
-        Optional<Account> account = accountRepository.findById(accountId);
+    public void takeAccountBanned(String email) {
+        Optional<Account> account = accountRepository.findByEmail(email);
 
         if (account.isPresent()) {
-            accountRepository.changeAccountState(accountId, Account.State.BANNED.name());
+            accountRepository.changeAccountState(account.get().getId(), Account.State.BANNED);
         } else {
             throw new RuntimeException("account not found");
         }
     }
 
     @Override
-    public void takeAccountConfirmed(long accountId) {
-        Optional<Account> account = accountRepository.findById(accountId);
+    public void takeAccountConfirmed(String email) {
+        Optional<Account> account = accountRepository.findByEmail(email);
 
         if (account.isPresent()) {
-            accountRepository.changeAccountState(accountId, Account.State.CONFIRMED.name());
+            accountRepository.changeAccountState(account.get().getId(), Account.State.CONFIRMED);
         } else {
             throw new RuntimeException("account not found");
         }
     }
 
     @Override
-    public void takeRoleUser(long accountId) {
-        Optional<Account> account = accountRepository.findById(accountId);
+    public void takeRoleUser(String email) {
+        Optional<Account> account = accountRepository.findByEmail(email);
 
         if (account.isPresent()) {
-            accountRepository.changeAccountRole(accountId, Account.Role.USER.name());
+            accountRepository.changeAccountRole(account.get().getId(), Account.Role.USER);
         } else {
             throw new RuntimeException("account not found");
         }
     }
 
     @Override
-    public void takeRoleAdmin(long accountId) {
-        Optional<Account> account = accountRepository.findById(accountId);
+    public void takeRoleAdmin(String email) {
+        Optional<Account> account = accountRepository.findByEmail(email);
 
         if (account.isPresent()) {
-            accountRepository.changeAccountRole(accountId, Account.Role.ADMIN.name());
+            accountRepository.changeAccountRole(account.get().getId(), Account.Role.ADMIN);
         } else {
             throw new RuntimeException("account not found");
         }

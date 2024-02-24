@@ -8,15 +8,15 @@ public interface UsersService {
 
     List<AccountDto> getAllAccounts();
 
-    void takeAccountDeleted(long accountId);
+    void takeAccountDeleted(String email);
 
-    void takeAccountBanned(long accountId);
+    void takeAccountBanned(String email);
 
-    void takeAccountConfirmed(long accountId);
+    void takeAccountConfirmed(String email);
 
-    void takeRoleUser(long accountId);
+    void takeRoleUser(String email);
 
-    void takeRoleAdmin(long accountId);
+    void takeRoleAdmin(String email);
 
 
 }

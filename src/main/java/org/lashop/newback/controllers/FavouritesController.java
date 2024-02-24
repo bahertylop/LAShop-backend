@@ -4,7 +4,6 @@ package org.lashop.newback.controllers;
 import lombok.RequiredArgsConstructor;
 import org.lashop.newback.config.security.AccountUserDetails;
 import org.lashop.newback.dto.ShoeTypeDto;
-import org.lashop.newback.dto.requests.AccountIdRequest;
 import org.lashop.newback.dto.requests.OneFavouriteRequest;
 import org.lashop.newback.models.Account;
 import org.lashop.newback.services.FavouritesService;
