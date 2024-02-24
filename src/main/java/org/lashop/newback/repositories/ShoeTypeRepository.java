@@ -21,4 +21,6 @@ public interface ShoeTypeRepository extends JpaRepository<ShoeType, Long> {
     @Transactional
     @Query("UPDATE ShoeType p SET p.inStock = false WHERE p.category.id = ?1")
     void makeAllNotInStockByCategoryId(long categoryId);
+
+    List<ShoeType> getShoeTypesByInStock(boolean inStock);
 }

@@ -16,4 +16,6 @@ public interface ShoeTypeService {
     void createNewShoeType(ShoeTypeDto shoeTypeDto);
 
     void updateShoeType(ShoeTypeDto shoeTypeDto);
+
+    List<ShoeTypeDto> getShoeTypesIsInStock(boolean isInStock);
 }

@@ -62,10 +62,7 @@ public class CategoriesController {
             return ResponseEntity.badRequest().body("request has empty body");
         }
 
-
-
         categoryService.deleteCategoryAndTakeTypesNotInStock(categoryDto.getName());
-
         return ResponseEntity.ok("category deleted");
     }
 }

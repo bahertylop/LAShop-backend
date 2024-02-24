@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/categories/{categoryId}").permitAll()
                         .requestMatchers("/api/products/{productId}").permitAll()
                         .requestMatchers("/api/favourites", "/api/favourites/**").authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers("api/adm/types/inStock", "api/adm/types/notInStock").hasAuthority("ADMIN")                        .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(Customizer.withDefaults())

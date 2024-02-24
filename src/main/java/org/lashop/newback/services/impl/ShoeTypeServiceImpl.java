@@ -74,4 +74,9 @@ public class ShoeTypeServiceImpl implements ShoeTypeService {
             shoeTypeRepository.save(shoeTypeReal);
         }
     }
-}
+
+    @Override
+    public List<ShoeTypeDto> getShoeTypesIsInStock(boolean isInStock) {
+        return ShoeTypeDto.from(shoeTypeRepository.getShoeTypesByInStock(isInStock));
+    }
+ }
