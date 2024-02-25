@@ -67,6 +67,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void createCategory(String categoryName, String image) {
+        Optional<Category> categoryFind = categoryRepository.findCategoryByName(categoryName);
+
+        if (categoryFind.isPresent()) {
+            throw new RuntimeException("not unique name");
+        }
+
         Category category = Category.builder()
                 .name(categoryName)
                 .image(image)
