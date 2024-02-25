@@ -31,13 +31,13 @@ public class TokenFilter extends OncePerRequestFilter {
         try {
 
             // токен в куки
-            //jwt = jwtCore.getTokenFromRequest(request);
+            jwt = jwtCore.getTokenFromRequest(request);
 
             // токен в хэдере
-            String headerAuth = request.getHeader("Authorization");
-            if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
-                jwt = headerAuth.substring(7);
-            }
+//            String headerAuth = request.getHeader("Authorization");
+//            if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
+//                jwt = headerAuth.substring(7);
+//            }
 
 
             if (jwt != null) {

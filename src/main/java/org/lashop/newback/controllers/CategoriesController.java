@@ -52,7 +52,12 @@ public class CategoriesController {
             return ResponseEntity.badRequest().body("request has empty body");
         }
 
-        categoryService.createCategory(categoryDto.getName(), categoryDto.getImage());
+        try {
+            categoryService.createCategory(categoryDto.getName(), categoryDto.getImage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
         return ResponseEntity.ok("category added");
     }
 
