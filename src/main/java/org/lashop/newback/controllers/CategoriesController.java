@@ -22,7 +22,7 @@ public class CategoriesController {
     private final CategoryService categoryService;
 
     @GetMapping("api/categories/{categoryId}")
-    ResponseEntity<?> getCategoryShoeTypes(@PathVariable(required = false) Long categoryId) {
+    public ResponseEntity<?> getCategoryShoeTypes(@PathVariable(required = false) Long categoryId) {
 //        if (categoryId == null) {
 //            return new ResponseEntity<>("not valid path", HttpStatus.BAD_REQUEST);
 //        }
@@ -41,13 +41,13 @@ public class CategoriesController {
 
 
     @GetMapping("api/adm/categories/all")
-    ResponseEntity<?> getAllCategories() {
+    public ResponseEntity<?> getAllCategories() {
         List<CategoryDto> categories = categoryService.getAllCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @PostMapping("api/adm/categories/add")
-    ResponseEntity<?> addNewCategory(@RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<?> addNewCategory(@RequestBody CategoryDto categoryDto) {
         if (categoryDto == null || categoryDto.getName() == null || categoryDto.getImage() == null) {
             return ResponseEntity.badRequest().body("request has empty body");
         }
@@ -62,7 +62,7 @@ public class CategoriesController {
     }
 
     @PostMapping("api/adm/categories/delete")
-    ResponseEntity<?> deleteCategory(@RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<?> deleteCategory(@RequestBody CategoryDto categoryDto) {
         if (categoryDto == null || categoryDto.getName() == null) {
             return ResponseEntity.badRequest().body("request has empty body");
         }

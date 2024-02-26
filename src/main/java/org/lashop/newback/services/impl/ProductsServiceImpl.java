@@ -86,38 +86,44 @@ public class ProductsServiceImpl implements ProductService {
     // посмотреть как будет работать
     private final ShoeTypeRepository shoeTypeRepository;
     @Override
-    public void addNewProduct(ProductDto productDto) {
-        Product product = Product.builder()
-                .shoeType(shoeTypeRepository.findById(productDto.getTypeId()).orElse(null))
-                .size(productDto.getSize())
-                .sold(productDto.isSold())
-                .build();
+    public void addNewProduct(ProductDto productDto) throws RuntimeException {
 
-        productRepository.save(product);
+        if (productDto != null && productDto.getTypeId() != null && productDto.getSize() != null) {
+            Product product = Product.builder()
+                    .shoeType(shoeTypeRepository.findById(productDto.getTypeId()).orElseThrow(() -> new RuntimeException("shoeType not found")))
+                    .size(productDto.getSize())
+                    .sold(false)
+                    .build();
+
+            productRepository.save(product);
+        } else {
+            throw new RuntimeException("productDto is null");
+        }
+
     }
 
     @Override
-    public void addNewProduct(long typeId, double size, boolean sold) {
+    public void addNewProduct(long typeId, double size) {
         Product product = Product.builder()
-                .shoeType(shoeTypeRepository.findById(typeId).orElse(null))
+                .shoeType(shoeTypeRepository.findById(typeId).orElseThrow(() -> new RuntimeException("shoeType not found")))
                 .size(size)
-                .sold(sold)
+                .sold(false)
                 .build();
 
         productRepository.save(product);
     }
 
     @Override
-    public void addSomeNewProducts(ProductDto productDto, int quantity) {
+    public void addSomeNewProducts(ProductDto productDto, int quantity) throws RuntimeException {
         for (int i = 0; i < quantity; i++) {
             addNewProduct(productDto);
         }
     }
 
     @Override
-    public void addSomeNewProduct(long typeId, double size, boolean sold, int quantity) {
+    public void addSomeNewProducts(long typeId, double size, int quantity) throws RuntimeException {
         for (int i = 0; i < quantity; i++) {
-            addNewProduct(typeId, size, sold);
+            addNewProduct(typeId, size);
         }
     }
 }

@@ -32,9 +32,9 @@ public interface ProductService {
 
     void addNewProduct(ProductDto productDto);
 
-    void addNewProduct(long typeId, double size, boolean sold);
+    void addNewProduct(long typeId, double size);
 
     void addSomeNewProducts(ProductDto productDto, int quantity);
 
-    void addSomeNewProduct(long typeId, double size, boolean sold, int quantity);
+    void addSomeNewProducts(long typeId, double size, int quantity);
 }

@@ -15,10 +15,10 @@ import java.util.List;
 @Builder
 public class ProductDto {
 
-    private long id;
-    private long typeId;
-    private double size;
-    private boolean sold;
+    private Long id;
+    private Long typeId;
+    private Double size;
+    private Boolean sold;
 
     public static ProductDto from(Product product) {
         return ProductDto.builder()

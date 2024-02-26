@@ -70,8 +70,8 @@ public class ShoeTypeServiceImpl implements ShoeTypeService {
             shoeTypeReal.setColor(shoeTypeDto.getColor());
             shoeTypeReal.setPhotos(shoeTypeDto.getPhotos());
             shoeTypeReal.setDescription(shoeTypeDto.getDescription());
-            shoeTypeReal.setInStock(shoeTypeDto.isInStock());
-            shoeTypeReal.setCategory(categoryRepository.getReferenceById(shoeTypeDto.getCategoryId()));
+            shoeTypeReal.setInStock(false);
+            shoeTypeReal.setCategory(categoryRepository.findById(shoeTypeDto.getCategoryId()).orElseThrow(() -> new RuntimeException("category not found")));
             shoeTypeRepository.save(shoeTypeReal);
         }
     }
