@@ -67,7 +67,7 @@ public class TypesController {
     @PostMapping("api/adm/types/add")
     ResponseEntity<?> addNewShoeType(@RequestBody ShoeTypeDto shoeTypeDto) {
         if (shoeTypeDto == null || shoeTypeDto.getBrand() == null || shoeTypeDto.getModel() == null ||
-                shoeTypeDto.getColor() == null || shoeTypeDto.getPrice() == 0) {
+                shoeTypeDto.getColor() == null || shoeTypeDto.getPrice() == 0 || shoeTypeDto.getDescription() == null) {
             return ResponseEntity.badRequest().body("request has empty body");
         }
 
