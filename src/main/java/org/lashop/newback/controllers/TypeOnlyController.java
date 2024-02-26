@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.lashop.newback.dto.ShoeTypeDto;
 import org.lashop.newback.dto.requests.SizeQuantity;
 import org.lashop.newback.dto.responses.TypeOnlyResponse;
+import org.lashop.newback.dto.responses.TypeOnlyResponseAdm;
 import org.lashop.newback.services.CategoryService;
 import org.lashop.newback.services.ProductService;
 import org.lashop.newback.services.ShoeTypeService;
@@ -45,6 +46,27 @@ public class TypeOnlyController {
             TypeOnlyResponse resp = TypeOnlyResponse.builder()
                     .shoeTypeDto(shoeType)
                     .relatedShoeTypes(relatedProducts)
+                    .sizes(sizes)
+                    .build();
+
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/api/adm/products/{shoeTypeId}")
+    ResponseEntity<?> getShoeTypeCardAdm(@PathVariable Long shoeTypeId) {
+        if (shoeTypeId == null) {
+            return ResponseEntity.badRequest().body("not shoeTypeId");
+        }
+
+        try {
+            ShoeTypeDto shoeType = shoeTypeService.getTypeById(shoeTypeId);
+            List<Double> sizes = productService.getAllSizesForType(shoeType.getId());
+
+            TypeOnlyResponseAdm resp = TypeOnlyResponseAdm.builder()
+                    .shoeTypeDto(shoeType)
                     .sizes(sizes)
                     .build();
 
