@@ -3,6 +3,7 @@ package org.lashop.newback.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.lashop.newback.dto.ShoeTypeDto;
+import org.lashop.newback.dto.requests.SizeQuantity;
 import org.lashop.newback.dto.responses.TypeOnlyResponse;
 import org.lashop.newback.services.CategoryService;
 import org.lashop.newback.services.ProductService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.nio.channels.ReadPendingException;
 import java.util.List;
 
 @Controller
@@ -56,7 +58,7 @@ public class TypeOnlyController {
     @PostMapping("/api/adm/products/{shoeTypeId}/update")
     ResponseEntity<?> updateShoeType(@RequestBody ShoeTypeDto shoeTypeDto, @PathVariable Long shoeTypeId) {
         if (shoeTypeId == null) {
-            return ResponseEntity.badRequest().body("request has empty body");
+            return ResponseEntity.badRequest().body("not shoeTypeId");
         }
 
         if (shoeTypeDto == null || shoeTypeDto.getBrand() == null || shoeTypeDto.getModel() == null ||
@@ -73,5 +75,21 @@ public class TypeOnlyController {
         }
     }
 
-//    public ResponseEntity<?>
+    @PostMapping("/api/adm/products/{shoeTypeId}/add")
+    public ResponseEntity<?> addShoePairs(@RequestBody SizeQuantity sizeQuantity, @PathVariable Long shoeTypeId) {
+        if (shoeTypeId == null) {
+            return ResponseEntity.badRequest().body("not shoeTypeId");
+        }
+
+        if (sizeQuantity.getQuantity() == null || sizeQuantity.getSize() == null) {
+            return ResponseEntity.badRequest().body("request has empty body");
+        }
+
+        try {
+            productService.addSomeNewProducts(shoeTypeId, sizeQuantity.getSize(), sizeQuantity.getQuantity());
+            return ResponseEntity.ok("pairs added");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
