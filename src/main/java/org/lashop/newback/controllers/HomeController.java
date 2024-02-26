@@ -28,7 +28,7 @@ public class HomeController {
     private final CategoryService categoryService;
 
     @GetMapping("api/home")
-    ResponseEntity<HomeResponse> getAllModels() {
+    public ResponseEntity<HomeResponse> getAllModels() {
 //        if (principal == null) {
 //            throw new IllegalArgumentException("user no authorized");
 //        }

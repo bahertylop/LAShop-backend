@@ -23,19 +23,19 @@ public class TypesController {
     private final ShoeTypeService shoeTypeService;
 
     @GetMapping("api/adm/types/inStock")
-    ResponseEntity<List<ShoeTypeDto>> getShoeTypesInStock() {
+    public ResponseEntity<List<ShoeTypeDto>> getShoeTypesInStock() {
         List<ShoeTypeDto> types = shoeTypeService.getShoeTypesIsInStock(true);
         return ResponseEntity.ok().body(types);
     }
 
     @GetMapping("api/adm/types/notInStock")
-    ResponseEntity<List<ShoeTypeDto>> getShoeTypesNotInStock() {
+    public ResponseEntity<List<ShoeTypeDto>> getShoeTypesNotInStock() {
         List<ShoeTypeDto> types = shoeTypeService.getShoeTypesIsInStock(false);
         return ResponseEntity.ok().body(types);
     }
 
     @PostMapping("api/adm/types/takeNotInStock/{shoeTypeId}")
-    ResponseEntity<?> takeNotInStock(@PathVariable Long shoeTypeId) {
+    public ResponseEntity<?> takeNotInStock(@PathVariable Long shoeTypeId) {
         if (shoeTypeId == null) {
             return ResponseEntity.badRequest().body("not shoeTypeId");
         }
@@ -49,7 +49,7 @@ public class TypesController {
     }
 
     @PostMapping("api/adm/types/takeInStock/{shoeTypeId}")
-    ResponseEntity<?> takeInStock(@PathVariable Long shoeTypeId) {
+    public ResponseEntity<?> takeInStock(@PathVariable Long shoeTypeId) {
         if (shoeTypeId == null) {
             return ResponseEntity.badRequest().body("not shoeTypeId");
         }
@@ -65,7 +65,7 @@ public class TypesController {
 
 
     @PostMapping("api/adm/types/add")
-    ResponseEntity<?> addNewShoeType(@RequestBody ShoeTypeDto shoeTypeDto) {
+    public ResponseEntity<?> addNewShoeType(@RequestBody ShoeTypeDto shoeTypeDto) {
         if (shoeTypeDto == null || shoeTypeDto.getBrand() == null || shoeTypeDto.getModel() == null ||
                 shoeTypeDto.getColor() == null || shoeTypeDto.getPrice() == 0 || shoeTypeDto.getDescription() == null) {
             return ResponseEntity.badRequest().body("request has empty body");
