@@ -31,6 +31,7 @@ public class CartController {
         }
         AccountUserDetails accountUserDetails = (AccountUserDetails) ((Authentication) principal).getPrincipal();
 
+        cartService.checkStockOfProductsCart(accountUserDetails.getId());
         List<CartDto> cartDto = cartService.takeCart(accountUserDetails.getId());
 
         return new ResponseEntity<>(cartDto, HttpStatus.OK);

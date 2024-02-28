@@ -114,4 +114,21 @@ public class CartServiceImpl implements CartService {
             plusCount(shoeTypeId, size, accountId);
         }
     }
+
+    @Override
+    public void checkStockOfProductsCart(long accountId) {
+        List<Cart> cartList = cartRepository.findAllByAccountId(accountId);
+
+        if (cartList != null) {
+            for (Cart cartTh : cartList) {
+                int countProducts = productRepository.countProductsByShoeTypeIdAndSizeNotSold(cartTh.getShoeType().getId(), cartTh.getSize());
+                if (countProducts == 0) {
+                    cartRepository.deleteByShoeTypeIdAndAccountIdAndSize(cartTh.getShoeType().getId(), accountId, cartTh.getSize());
+                } else if (countProducts < cartTh.getQuantity()) {
+                    cartTh.setQuantity(countProducts);
+                    cartRepository.save(cartTh);
+                }
+            }
+        }
+    }
 }

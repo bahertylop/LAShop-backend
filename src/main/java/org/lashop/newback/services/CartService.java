@@ -19,4 +19,6 @@ public interface CartService {
     void deleteItemFromCart(long shoeTypeId, double size, long accountId);
 
     void addToCart(long shoeTypeId, double size, long accountId);
+
+    void checkStockOfProductsCart(long accountId);
 }
