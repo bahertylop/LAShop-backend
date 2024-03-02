@@ -34,7 +34,7 @@ public class CardsServiceImpl implements CardsService {
                 .account(accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("account not found")))
                 .build();
 
-        cardsRepository.findAll();
+        cardsRepository.save(card);
     }
 
     @Override
