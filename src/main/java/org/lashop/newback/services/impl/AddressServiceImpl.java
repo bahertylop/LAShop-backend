@@ -20,7 +20,7 @@ public class AddressServiceImpl implements AddressService{
 
     @Override
     public List<AddressDto> getAllAddresses(Long accountId) {
-        return AddressDto.from(addressRepository.findAll());
+        return AddressDto.from(addressRepository.findAllByAccountId(accountId).orElseThrow(() -> new RuntimeException("account not found")));
     }
 
     @Override

@@ -21,7 +21,7 @@ public class CardsServiceImpl implements CardsService {
 
     @Override
     public List<CardDto> getAllCards(Long accountId) {
-        return CardDto.from(cardsRepository.findAll());
+        return CardDto.from(cardsRepository.findAllByAccountId(accountId).orElseThrow(() -> new RuntimeException("account not found")));
     }
 
     @Override

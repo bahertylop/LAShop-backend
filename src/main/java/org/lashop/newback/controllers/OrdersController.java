@@ -33,13 +33,17 @@ public class OrdersController {
 
         AccountUserDetails userDetails = (AccountUserDetails) ((Authentication)principal).getPrincipal();
 
-        InfoToOrder info = InfoToOrder.builder()
-                .addresses(addressService.getAllAddresses(userDetails.getId()))
-                .cards(cardsService.getAllCards(userDetails.getId()))
-                .cart(cartService.takeCart(userDetails.getId()))
-                .build();
+        try {
+            InfoToOrder info = InfoToOrder.builder()
+                    .addresses(addressService.getAllAddresses(userDetails.getId()))
+                    .cards(cardsService.getAllCards(userDetails.getId()))
+                    .cart(cartService.takeCart(userDetails.getId()))
+                    .build();
 
-        return ResponseEntity.ok(info);
+            return ResponseEntity.ok(info);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 
