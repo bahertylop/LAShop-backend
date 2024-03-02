@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrdersService {
 
-    void makeOrder(OrderDto orderDto, List<CartDto> cart);
+    void makeOrder(OrderDto orderDto, List<CartDto> cart, Long accountId);
 
     List<OrderDto> getUserOrders(Long accountId);
 

@@ -17,6 +17,9 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Transactional
     void deleteByShoeTypeIdAndAccountIdAndSize(long shoeTypeId, long accountId, double size);
 
+    @Transactional
+    void deleteByAccountId(long account_id);
+
 //    @Transactional
 //    default void plusQuantity(long shoeType, double size, long accountId) {
 //        Optional<Cart> position = findByShoeTypeIdAndAccountIdAndSize(shoeType, accountId, size);

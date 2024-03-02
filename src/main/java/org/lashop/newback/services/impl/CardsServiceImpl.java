@@ -20,8 +20,8 @@ public class CardsServiceImpl implements CardsService {
     private final AccountRepository accountRepository;
 
     @Override
-    public List<CardDto> getAllCards(Long accountId) {
-        return CardDto.from(cardsRepository.findAll());
+    public List<CardDto> getUserCards(Long accountId) {
+        return CardDto.from(cardsRepository.findAllByAccountId(accountId).orElseThrow(() -> new RuntimeException("account not found")));
     }
 
     @Override
@@ -34,7 +34,7 @@ public class CardsServiceImpl implements CardsService {
                 .account(accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("account not found")))
                 .build();
 
-        cardsRepository.findAll();
+        cardsRepository.save(card);
     }
 
     @Override

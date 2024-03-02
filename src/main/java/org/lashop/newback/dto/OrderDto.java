@@ -16,12 +16,12 @@ import java.util.List;
 @Builder
 public class OrderDto {
 
-    private long id;
-    private long userId;
+    private Long id;
+    private Long userId;
     private LocalDate orderDate;
-    private long addressId;
-    private long cardId;
-    private int totalSum;
+    private Long addressId;
+    private Long cardId;
+    private Integer totalSum;
     private List<Long> productListIds;
 
     public static OrderDto from(Orders order) {
