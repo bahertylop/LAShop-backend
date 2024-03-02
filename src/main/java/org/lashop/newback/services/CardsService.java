@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CardsService {
 
-    List<CardDto> getAllCards(Long accountId);
+    List<CardDto> getUserCards(Long accountId);
 
     void addNewCard(Long accountId, CardDto cardDto);
 
