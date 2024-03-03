@@ -68,7 +68,7 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public List<OrderDto> getUserOrders(Long accountId) {
-        return OrderDto.from(ordersRepository.getOrdersByAccountId(accountId)
+        return OrderDto.from(ordersRepository.getOrdersByAccountIdOrderByIdDesc(accountId)
                 .orElseThrow(() -> new RuntimeException("account not found")));
     }
 
