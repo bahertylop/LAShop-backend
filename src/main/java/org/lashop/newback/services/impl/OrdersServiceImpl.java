@@ -74,6 +74,6 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public List<OrderDto> getAllOrders() {
-        return OrderDto.from(ordersRepository.findAll());
+        return OrderDto.from(ordersRepository.findAllByOrderByIdDesc());
     }
 }

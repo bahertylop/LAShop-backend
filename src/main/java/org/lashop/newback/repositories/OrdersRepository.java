@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     Optional<List<Orders>> getOrdersByAccountIdOrderByIdDesc(Long accountId);
+
+    List<Orders> findAllByOrderByIdDesc();
 }

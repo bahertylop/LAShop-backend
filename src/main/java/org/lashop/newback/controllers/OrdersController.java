@@ -74,4 +74,10 @@ public class OrdersController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("api/adm/orders")
+    public ResponseEntity<?> getAllOrders() {
+        List<OrderDto> orders = ordersService.getAllOrders();
+        return ResponseEntity.ok(orders);
+    }
 }
