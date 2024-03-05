@@ -55,6 +55,11 @@ public class WebSecurityConfig {
                         .requestMatchers("api/cards/**").authenticated()
                         .requestMatchers("api/adm/**").hasAuthority("ADMIN")
                         .anyRequest().permitAll())
+                .formLogin(formLogin ->
+                        formLogin
+                                .loginPage("http://localhost:3000/login")
+                                .permitAll()    
+                )
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(Customizer.withDefaults())
