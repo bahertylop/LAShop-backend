@@ -15,13 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.List;
 
 
 // возможно тут нужна проверка на null при касте к AccountUserDetails (юзается везде)
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class FavouritesController {
 

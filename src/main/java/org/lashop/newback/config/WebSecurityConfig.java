@@ -50,10 +50,11 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/categories/{categoryId}").permitAll()
                         .requestMatchers("/api/products/{productId}").permitAll()
                         .requestMatchers("/api/favourites", "/api/favourites/**").authenticated()
+                        .requestMatchers("/api/profile", "/api/profile/**").authenticated()
                         .requestMatchers("/api/order/**").authenticated()
                         .requestMatchers("/api/address/**").authenticated()
-                        .requestMatchers("api/cards/**").authenticated()
-                        .requestMatchers("api/adm/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/cards/**").authenticated()
+                        .requestMatchers("/api/adm/**").hasAuthority("ADMIN")
                         .anyRequest().permitAll())
                 .formLogin(formLogin ->
                         formLogin
