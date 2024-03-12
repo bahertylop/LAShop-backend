@@ -50,6 +50,72 @@ class AccountDtoTest {
     }
 
     @Test
-    void testFrom() {
+    void testFromForListOfObjects() {
+        List<Account> accountList = List.of(
+                Account.builder()
+                        .id(1)
+                        .firstName("John")
+                        .lastName("Doe")
+                        .email("john.doe@example.com")
+                        .phoneNumber("123456789")
+                        .password("password123")
+                        .personalSale(10)
+                        .role(Account.Role.USER)
+                        .accountState(Account.State.CONFIRMED)
+                        .cards(List.of(Card.builder().id(1).build(), Card.builder().id(2).build()))
+                        .addresses(List.of(Address.builder().id(1).build(), Address.builder().id(2).build()))
+                        .orders(List.of(Orders.builder().id(1).build(), Orders.builder().id(2).build()))
+                        .build(),
+                Account.builder()
+                        .id(2)
+                        .firstName("Jane")
+                        .lastName("Smith")
+                        .email("jane.smith@example.com")
+                        .phoneNumber("987654321")
+                        .password("password456")
+                        .personalSale(20)
+                        .role(Account.Role.ADMIN)
+                        .accountState(Account.State.NOT_CONFIRMED)
+                        .cards(List.of(Card.builder().id(3).build(), Card.builder().id(4).build()))
+                        .addresses(List.of(Address.builder().id(3).build(), Address.builder().id(4).build()))
+                        .orders(List.of(Orders.builder().id(3).build(), Orders.builder().id(4).build()))
+                        .build()
+        );
+
+        List<AccountDto> accountDtoList = AccountDto.from(accountList);
+
+        List<AccountDto> expectedAccountDtoList = List.of(
+                AccountDto.builder()
+                        .id(1)
+                        .firstName("John")
+                        .lastName("Doe")
+                        .email("john.doe@example.com")
+                        .phoneNumber("123456789")
+                        .password("password123")
+                        .personalSale(10)
+                        .role("USER")
+                        .accountState("CONFIRMED")
+                        .addresses(List.of(1L, 2L))
+                        .cards(List.of(1L, 2L))
+                        .orders(List.of(1L, 2L))
+                        .build(),
+                AccountDto.builder()
+                        .id(2)
+                        .firstName("Jane")
+                        .lastName("Smith")
+                        .email("jane.smith@example.com")
+                        .phoneNumber("987654321")
+                        .password("password456")
+                        .personalSale(20)
+                        .role("ADMIN")
+                        .accountState("NOT_CONFIRMED")
+                        .addresses(List.of(3L, 4L))
+                        .cards(List.of(3L, 4L))
+                        .orders(List.of(3L, 4L))
+                        .build()
+        );
+
+        Assertions.assertEquals(expectedAccountDtoList, accountDtoList);
     }
+
 }

@@ -42,19 +42,21 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/api/signUp").permitAll()
-                        .requestMatchers("/api/signIn").permitAll()
-                        .requestMatchers("/api/home").permitAll()
+                        .requestMatchers("/api/adm/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/deleteAccount").authenticated()
                         .requestMatchers("/api/cart", "/api/cart/**").authenticated()
-                        .requestMatchers("/api/categories/{categoryId}").permitAll()
-                        .requestMatchers("/api/products/{productId}").permitAll()
                         .requestMatchers("/api/favourites", "/api/favourites/**").authenticated()
                         .requestMatchers("/api/profile", "/api/profile/**").authenticated()
                         .requestMatchers("/api/order/**").authenticated()
                         .requestMatchers("/api/address/**").authenticated()
                         .requestMatchers("/api/cards/**").authenticated()
-                        .requestMatchers("/api/adm/**").hasAuthority("ADMIN"))
+                        .requestMatchers("/api/signUp").permitAll()
+                        .requestMatchers("/api/signIn").permitAll()
+                        .requestMatchers("/api/home").permitAll()
+                        .requestMatchers("/api/categories/{categoryId}").permitAll()
+                        .requestMatchers("/api/products/{productId}").permitAll()
+                )
+
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("http://localhost:3000/login")
