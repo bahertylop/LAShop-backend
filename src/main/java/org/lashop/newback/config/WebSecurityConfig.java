@@ -54,12 +54,11 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/order/**").authenticated()
                         .requestMatchers("/api/address/**").authenticated()
                         .requestMatchers("/api/cards/**").authenticated()
-                        .requestMatchers("/api/adm/**").hasAuthority("ADMIN")
-                        .anyRequest().permitAll())
+                        .requestMatchers("/api/adm/**").hasAuthority("ADMIN"))
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("http://localhost:3000/login")
-                                .permitAll()    
+                                .permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
