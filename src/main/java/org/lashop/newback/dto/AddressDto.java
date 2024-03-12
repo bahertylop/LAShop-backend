@@ -18,7 +18,6 @@ public class AddressDto {
     private long id;
     private String address;
     private long accountId;
-//    private List<Long> ordersList;
 
     public static AddressDto from(Address address) {
 
@@ -26,7 +25,6 @@ public class AddressDto {
                 .id(address.getId())
                 .address(address.getAddress())
                 .accountId(address.getAccount().getId())
-//                .ordersList(address.getOrders().stream().map(Orders::getId).toList())
                 .build();
     }
 
