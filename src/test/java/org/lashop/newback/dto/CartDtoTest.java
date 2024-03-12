@@ -71,7 +71,6 @@ class CartDtoTest {
         List<Cart> cartList = List.of(
                 Cart.builder()
                         .id(1)
-                        .shoeType(ShoeType.builder().id(1).build())
                         .size(10.5)
                         .quantity(2)
                         .account(Account.builder().id(1).build())

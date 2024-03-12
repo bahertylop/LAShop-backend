@@ -17,14 +17,14 @@ import java.util.List;
 public class FavouritesDto {
 
     private long id;
-    private Account account;
-    private ShoeType product;
+    private AccountDto account;
+    private ShoeTypeDto product;
 
     public static FavouritesDto from(Favourite favourite) {
         return FavouritesDto.builder()
                 .id(favourite.getId())
-                .account(favourite.getAccount())
-                .product(favourite.getShoeType())
+                .account(AccountDto.from(favourite.getAccount()))
+                .product(ShoeTypeDto.from(favourite.getShoeType()))
                 .build();
     }
 
