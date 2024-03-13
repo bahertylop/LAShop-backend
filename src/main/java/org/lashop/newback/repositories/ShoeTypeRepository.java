@@ -2,6 +2,7 @@ package org.lashop.newback.repositories;
 
 import jakarta.transaction.Transactional;
 import org.lashop.newback.models.ShoeType;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,7 @@ public interface ShoeTypeRepository extends JpaRepository<ShoeType, Long> {
     List<ShoeType> getShoeTypesByCategoryId(long categoryId);
 
     @Query("SELECT p from ShoeType p where p.category.id = ?1")
-    List<ShoeType> getShoeTypesByCategoryIdLimited(long categoryId, Pageable limit);
+    List<ShoeType> getShoeTypesByCategoryIdLimited(long categoryId, Limit limit);
 
     @Modifying
     @Transactional
