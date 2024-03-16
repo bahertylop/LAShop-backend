@@ -2,9 +2,11 @@ package org.lashop.newback.dto.requests;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class SignUpRequest {
 
     @Schema(example = "Иван")

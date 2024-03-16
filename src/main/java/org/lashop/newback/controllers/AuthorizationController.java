@@ -34,13 +34,7 @@ public class AuthorizationController {
 
     private final AccountService accountService;
     private final AuthenticationManager authenticationManager;
-    private JwtCore jwtCore;
-
-    @Autowired
-    public void jwtCoreSet(JwtCore jwtCore) {
-        this.jwtCore = jwtCore;
-    }
-
+    private final JwtCore jwtCore;
 
     @PostMapping("/api/signIn")
     @ResponseStatus(HttpStatus.OK)
