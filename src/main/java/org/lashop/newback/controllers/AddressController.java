@@ -6,6 +6,7 @@ import org.apache.coyote.Response;
 import org.lashop.newback.config.security.AccountUserDetails;
 import org.lashop.newback.dto.AddressDto;
 import org.lashop.newback.services.AddressService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class AddressController {
             List<AddressDto> addresses = addressService.getAllAddresses(userDetails.getId());
             return ResponseEntity.ok(addresses);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(e.getMessage());
         }
     }
 
