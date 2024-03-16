@@ -61,7 +61,8 @@ class CartControllerTest {
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
         Principal principal = (Principal) authentication;
 
-        List<CartDto> list = List.of(CartDto.builder().id(1).size(40).shoeType(ShoeTypeDto.builder().id(1).build()).quantity(2).build(),
+        List<CartDto> list = List.of(
+                CartDto.builder().id(1).size(40).shoeType(ShoeTypeDto.builder().id(1).build()).quantity(2).build(),
                 CartDto.builder().id(2).size(42).shoeType(ShoeTypeDto.builder().id(1).build()).quantity(2).build());
 
         doNothing().when(cartService).checkStockOfProductsCart(userDetails.getId());
@@ -91,7 +92,7 @@ class CartControllerTest {
 
         CurrentShoe shoe = CurrentShoe.builder().shoeTypeId(1L).size(40.0).build();
 
-        doNothing().when(cartService).minusCount(shoe.getShoeTypeId(), shoe.getSize(), userDetails.getId());
+//        doNothing().when(cartService).minusCount(shoe.getShoeTypeId(), shoe.getSize(), userDetails.getId());
         mockMvc.perform(post("/api/cart/minus")
                         .principal(principal)
                         .content(objectMapper.writeValueAsString(shoe))
@@ -132,7 +133,7 @@ class CartControllerTest {
 
         CurrentShoe shoe = CurrentShoe.builder().shoeTypeId(1L).size(40.0).build();
 
-        doNothing().when(cartService).plusCount(shoe.getShoeTypeId(), shoe.getSize(), userDetails.getId());
+//        doNothing().when(cartService).plusCount(shoe.getShoeTypeId(), shoe.getSize(), userDetails.getId());
         mockMvc.perform(post("/api/cart/plus")
                         .principal(principal)
                         .content(objectMapper.writeValueAsString(shoe))
@@ -172,7 +173,7 @@ class CartControllerTest {
 
         CurrentShoe shoe = CurrentShoe.builder().shoeTypeId(1L).size(40.0).build();
 
-        doNothing().when(cartService).plusCount(shoe.getShoeTypeId(), shoe.getSize(), userDetails.getId());
+//        doNothing().when(cartService).plusCount(shoe.getShoeTypeId(), shoe.getSize(), userDetails.getId());
         mockMvc.perform(post("/api/cart/delete")
                         .principal(principal)
                         .content(objectMapper.writeValueAsString(shoe))
@@ -212,7 +213,7 @@ class CartControllerTest {
 
         CurrentShoe shoe = CurrentShoe.builder().shoeTypeId(1L).size(40.0).build();
 
-        doNothing().when(cartService).plusCount(shoe.getShoeTypeId(), shoe.getSize(), userDetails.getId());
+//        doNothing().when(cartService).plusCount(shoe.getShoeTypeId(), shoe.getSize(), userDetails.getId());
         mockMvc.perform(post("/api/cart/add")
                         .principal(principal)
                         .content(objectMapper.writeValueAsString(shoe))

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.lashop.newback.config.security.AccountUserDetails;
 import org.lashop.newback.dto.AddressDto;
 import org.lashop.newback.dto.CardDto;
+import org.lashop.newback.dto.CartDto;
 import org.lashop.newback.models.Account;
 import org.lashop.newback.services.CardsService;
 import org.mockito.InjectMocks;
@@ -65,8 +66,8 @@ public class CardControllerTest {
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
         Principal principal = (Principal) authentication;
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        List<CardDto> cards = Collections.singletonList(new CardDto());
-        when(cardsService.getUserCards(anyLong())).thenReturn(cards);
+        List<CardDto> cards = List.of(CardDto.builder().id(1L).build());
+        when(cardsService.getUserCards(userDetails.getId())).thenReturn(cards);
 
         // Act & Assert
         mockMvc.perform(get("/api/cards/get").principal(principal))
@@ -112,6 +113,7 @@ public class CardControllerTest {
         cardDto.setCardNumber("1234567890123456");
         cardDto.setPaySystem("Visa");
 
+        doNothing().when(cardsService).addNewCard(userDetails.getId(), cardDto);
         // Act & Assert
         mockMvc.perform(post("/api/cards/add")
                         .principal(principal)
@@ -120,7 +122,7 @@ public class CardControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("card added"));
 
-        verify(cardsService, times(1)).addNewCard(anyLong(), eq(cardDto));
+        verify(cardsService, times(1)).addNewCard(eq(userDetails.getId()), eq(cardDto));
     }
 
     @Test
