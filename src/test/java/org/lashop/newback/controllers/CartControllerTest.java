@@ -5,6 +5,7 @@ import org.aspectj.weaver.bcel.BcelShadow;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.lashop.newback.config.security.AccountUserDetails;
 import org.lashop.newback.dto.CartDto;
 import org.lashop.newback.dto.ShoeTypeDto;
@@ -14,6 +15,7 @@ import org.lashop.newback.services.CartService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,6 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 //import static org.mockito.Mockito.get;
 
+@ExtendWith(MockitoExtension.class)
 class CartControllerTest {
 
     @Mock
