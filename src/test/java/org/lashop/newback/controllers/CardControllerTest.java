@@ -54,7 +54,6 @@ public class CardControllerTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(cardController).build();
         objectMapper = new ObjectMapper();
     }

@@ -50,7 +50,6 @@ class CartControllerTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(cartController).build();
         objectMapper = new ObjectMapper();
     }
