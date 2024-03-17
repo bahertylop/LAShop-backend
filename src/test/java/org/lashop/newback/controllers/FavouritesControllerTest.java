@@ -1,5 +1,6 @@
 package org.lashop.newback.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -123,9 +124,94 @@ class FavouritesControllerTest {
         verify(favouritesService, times(1)).addShoeTypeToFavourites(userDetails.getId(), request.getShoeTypeId());
     }
 
+    @Test
+    void testAddToFavouritesUnAuthorized() {
+        Principal principal = null;
+        OneFavouriteRequest request = OneFavouriteRequest.builder().shoeTypeId(1L).build();
 
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ResponseEntity<?> response = favouritesController.addToFavourites(request, principal);
+        });
+    }
 
+    @Test
+    public void testAddToFavouritesEmptyBody() throws Exception {
+        AccountUserDetails userDetails = new AccountUserDetails(Account.builder().id(1L).build());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
+        Principal principal = (Principal) authentication;
 
+        mockMvc.perform(post("/api/favourites/add")
+                        .principal(principal)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}")
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("request has empty body"));
+    }
+
+    @Test
+    public void testAddToFavouritesThrows() throws Exception {
+        OneFavouriteRequest request = OneFavouriteRequest.builder().shoeTypeId(1L).build();
+        AccountUserDetails userDetails = new AccountUserDetails(Account.builder().id(1L).build());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
+        Principal principal = (Principal) authentication;
+
+        doThrow(new RuntimeException("exception")).when(favouritesService).addShoeTypeToFavourites(userDetails.getId(), request.getShoeTypeId());
+        mockMvc.perform(post("/api/favourites/add")
+                        .principal(principal)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$").value("account or shoeType not found"));
+
+        verify(favouritesService, times(1)).addShoeTypeToFavourites(userDetails.getId(), request.getShoeTypeId());
+    }
+
+    @Test
+    public void testDeleteOneFavourite() throws Exception {
+        OneFavouriteRequest request = OneFavouriteRequest.builder().shoeTypeId(1L).build();
+        AccountUserDetails userDetails = new AccountUserDetails(Account.builder().id(1L).build());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
+        Principal principal = (Principal) authentication;
+
+        doNothing().when(favouritesService).deleteFromFavourites(userDetails.getId(), request.getShoeTypeId());
+
+        mockMvc.perform(post("/api/favourites/delete")
+                        .principal(principal)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("favourite deleted"));
+
+        verify(favouritesService, times(1)).deleteFromFavourites(userDetails.getId(), request.getShoeTypeId());
+    }
+
+    @Test
+    void testDeleteOneFavouriteUnauthorized() {
+        Principal principal = null;
+        OneFavouriteRequest request = OneFavouriteRequest.builder().shoeTypeId(1L).build();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ResponseEntity<?> response = favouritesController.deleteOneFavourite(request, principal);
+        });
+    }
+
+    @Test
+    public void testDeleteOneFavouriteEmptyBody() throws Exception {
+        AccountUserDetails userDetails = new AccountUserDetails(Account.builder().id(1L).build());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
+        Principal principal = (Principal) authentication;
+
+        mockMvc.perform(post("/api/favourites/delete")
+                        .principal(principal)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}")
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").value("request has empty body"));
+    }
 
 
 
