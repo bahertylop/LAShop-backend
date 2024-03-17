@@ -100,7 +100,7 @@ public class TypeOnlyController {
             return ResponseEntity.badRequest().body("not shoeTypeId");
         }
 
-        if (sizeQuantity.getQuantity() == null || sizeQuantity.getSize() == null) {
+        if (sizeQuantity == null || sizeQuantity.getQuantity() == null || sizeQuantity.getSize() == null) {
             return ResponseEntity.badRequest().body("request has empty body");
         }
 
